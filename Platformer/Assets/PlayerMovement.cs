@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float jumpSpeed = 1;
 
+    public bool isGrounded;
+
     Rigidbody rb;
 
     // Start is called before the first frame update
@@ -19,25 +21,47 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
+        bool player_jump = Input.GetButtonDown("Jump");
 
         rb.velocity = new Vector3(h * moveSpeed,
                                   rb.velocity.y,
                                   v * moveSpeed);
 
-        if (Input.GetButtonDown("Jump"))
+        if (player_jump && isGrounded)
         {
-            Jump();
+            rb.velocity = new Vector3(rb.velocity.x,
+                                  jumpSpeed,
+                                  rb.velocity.z);
         }
     }
 
-    void Jump()
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+
+
+    /*void Jump()
     {
         rb.velocity = new Vector3(rb.velocity.x,
                                   jumpSpeed,
                                   rb.velocity.z);
-    }
+    }*/
 }
