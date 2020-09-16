@@ -6,10 +6,16 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     float moveSpeed = 1;
+
+    [SerializeField]
+    float jumpSpeed = 1;
+
+    Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -18,8 +24,20 @@ public class PlayerMovement : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        transform.position = new Vector3(transform.position.x + h * Time.deltaTime * moveSpeed,
-                                         transform.position.y,
-                                         transform.position.z + v * Time.deltaTime * moveSpeed);
+        rb.velocity = new Vector3(h * moveSpeed,
+                                  rb.velocity.y,
+                                  v * moveSpeed);
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
+    }
+
+    void Jump()
+    {
+        rb.velocity = new Vector3(rb.velocity.x,
+                                  jumpSpeed,
+                                  rb.velocity.z);
     }
 }
