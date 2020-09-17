@@ -1,9 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CollisionTest : MonoBehaviour
 {
+    /*[SerializeField]
+    float count = 3;
+
+    [SerializeField]
+    int goToLevel = 0;*/
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +25,17 @@ public class CollisionTest : MonoBehaviour
 
     /*private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("COLLIDIED WITH SOMETHING");
+        Destroy(gameObject);
 
-        Debug.Log(collision.gameObject.name);
+        count = count - 1;
+
+        Debug.Log(count);
+
+        if(count == 0)
+        {
+            SceneManager.LoadScene(goToLevel);
+            GameManager.instance.AddScore(goToLevel + 1);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

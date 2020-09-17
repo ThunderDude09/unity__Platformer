@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,6 +11,12 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     float jumpSpeed = 1;
+
+    [SerializeField]
+    float count = 1;
+
+    [SerializeField]
+    int goToLevel = 1;
 
     public bool isGrounded;
 
@@ -45,6 +53,21 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        if (collision.gameObject.CompareTag("coin"))
+        {
+            Destroy(collision.gameObject);
+
+            count = count - 1;
+
+            Debug.Log("you have " + count + " coins left");
+
+            if(count == 0)
+            {
+                SceneManager.LoadScene(goToLevel);
+                GameManager.instance.AddScore(goToLevel + 1);
+            }
+        }
     }
 
 
@@ -56,12 +79,4 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-
-    /*void Jump()
-    {
-        rb.velocity = new Vector3(rb.velocity.x,
-                                  jumpSpeed,
-                                  rb.velocity.z);
-    }*/
 }

@@ -22,5 +22,6 @@ public class Goal : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         SceneManager.LoadScene(goToLevel);
+        GameManager.instance.AddScore(goToLevel + 1);
     }
 }
